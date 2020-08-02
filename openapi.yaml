@@ -1,0 +1,67 @@
+openapi: 3.0.2
+info:
+  description: "Sample CatServer"
+  version: "1.0.0"
+  title: "Openapi Swagger CatServer"
+  contact:
+    email: "zhuravishkin@gmail.com"
+servers:
+  - url: http://localhost:8080/message
+    description: localhost
+paths:
+  /post:
+    post:
+      tags: ["Cats"]
+      summary: "Search Cats by time from the database"
+      requestBody:
+        description: "Cat object that needs to be find from the database"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cat'
+      responses:
+        200:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+        405:
+          description: "Invalid requestBody"
+  /get:
+    get:
+      tags: ["Cats"]
+      summary: Find all cats
+      responses:
+         200:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+components:
+  schemas:
+    Cat:
+      type: "object"
+      required:
+      - "name"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 1
+        name:
+          type: "string"
+          example: "Nick"
+        age:
+          type: "integer"
+          format: "int64"
+          example: 20
+        dateTime:
+          type: "string"
+          format: "date-time"
+          example: "2019-02-13T18:01:01"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
