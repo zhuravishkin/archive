@@ -121,15 +121,15 @@ public class CatController {
 
     private void putToSftpServer(File file) {
         log.info("Uploading file to sftp-server");
-        JSch jSch = new JSch();
         try {
-            jSch.setKnownHosts(new ByteArrayInputStream(("192.168.0.13 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQ" +
-                    "DiwOLhlVnECztwxZp9ptShLq8t+9+FZSb6S5edEhQu5vQUCv1y+qk1OrjvZOY1LKpHJkH8Gx7HLBgP80LMYnjFNB" +
-                    "rbgJt71CJ1pReiYlpNuZ8VRBqdBEZTtY4ghDoAaIzrovLGqK0Uo3N4vfctA7BAcNw96yWPHz9pWBhjEKGvL3ALSi" +
-                    "zuUkv6XGIAULxcCiUejywB427wldiL14WDMhzp4jUORXtY7V2kRsWWPuU51uNvafmFt1d3SepNUTS5SRd70y3OgA" +
-                    "y4l0CCl80+gEkMjzFJxSQZheus/W6NFue/MuyMCCciJOZoyrH2NoOngB52h90ZJ8+tb1gol8LrY+ZodHTd81sJ30" +
-                    "9kkDK6RT3odflTi7SGh2gZbWzHWQ+1040ex0nTzlqBfHeyhLjyyX0nSDaibHh6WcPCNpHHF+vdXSSTNxkOa6OtNI" +
-                    "UfRBmO5Z1j5FX+7DChzE0i7rTyZxKZmt+ZQVAUbFz9YirX3bUu98E80kEPXDdoIg7aS7b+4SM=").getBytes()));
+            JSch jSch = new JSch();
+            jSch.setKnownHosts(new ByteArrayInputStream(("192.168.0.13 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDiwOLh" +
+                    "lVnECztwxZp9ptShLq8t+9+FZSb6S5edEhQu5vQUCv1y+qk1OrjvZOY1LKpHJkH8Gx7HLBgP80LMYnjFNBrbgJt71CJ1pR" +
+                    "eiYlpNuZ8VRBqdBEZTtY4ghDoAaIzrovLGqK0Uo3N4vfctA7BAcNw96yWPHz9pWBhjEKGvL3ALSizuUkv6XGIAULxcCiUe" +
+                    "jywB427wldiL14WDMhzp4jUORXtY7V2kRsWWPuU51uNvafmFt1d3SepNUTS5SRd70y3OgAy4l0CCl80+gEkMjzFJxSQZhe" +
+                    "us/W6NFue/MuyMCCciJOZoyrH2NoOngB52h90ZJ8+tb1gol8LrY+ZodHTd81sJ309kkDK6RT3odflTi7SGh2gZbWzHWQ+1" +
+                    "040ex0nTzlqBfHeyhLjyyX0nSDaibHh6WcPCNpHHF+vdXSSTNxkOa6OtNIUfRBmO5Z1j5FX+7DChzE0i7rTyZxKZmt+ZQV" +
+                    "AUbFz9YirX3bUu98E80kEPXDdoIg7aS7b+4SM=").getBytes()));
             jSch.addIdentity("id_rsa", "ubuntu");
             Session session = jSch.getSession("user", "192.168.0.13", PORT);
             session.connect();
@@ -158,9 +158,9 @@ public class CatController {
             channelSftp.exit();
             channel.disconnect();
             session.disconnect();
-            log.info("File is uploaded to the server successfully");
+            log.info("The file has been uploaded to the sftp-server successfully");
         } catch (JSchException | SftpException e) {
-            log.info(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 }
