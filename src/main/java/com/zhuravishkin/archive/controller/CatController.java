@@ -84,7 +84,6 @@ public class CatController {
         try {
             rabbitTemplate.convertAndSend(exchange, key, mapper.writeValueAsString(cats));
             actuatorConfig.getSendMessage().increment();
-            actuatorConfig.getReceivedMessage().increment();
         } catch (JsonProcessingException e) {
             log.error(e.getMessage(), e);
             actuatorConfig.getLostMessage().increment();
