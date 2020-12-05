@@ -118,7 +118,7 @@ public class CatController {
         log.info("File is recorded");
     }
 
-    private void putToSftpServer(File file) {
+    public void putToSftpServer(File file) {
         log.info("Uploading file to sftp-server");
         try {
             JSch jSch = new JSch();

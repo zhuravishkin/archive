@@ -69,6 +69,7 @@ class CatControllerTest {
         cats.add(cat);
         when(service.findCats("Tom", 31, LocalDateTime.parse("2019-06-18T19:15:01")))
                 .thenReturn(cats);
+        doNothing().when(controller).putToSftpServer(any());
         when(actuatorConfig.getSendMessage()).thenReturn(Counter.builder("").register(new SimpleMeterRegistry()));
         when(actuatorConfig.getReceivedMessage()).thenReturn(Counter.builder("").register(new SimpleMeterRegistry()));
         List<Cat> list = controller.postCats("spring-boot-exchange", "spring-boot-routing-key",
@@ -87,6 +88,7 @@ class CatControllerTest {
                 .build()
                 .encode();
         String requestBody = Files.readString(Paths.get("src/test/resources/requestBody.json"));
+        doNothing().when(controller).putToSftpServer(any());
         when(actuatorConfig.getSendMessage()).thenReturn(Counter.builder("").register(new SimpleMeterRegistry()));
         when(actuatorConfig.getReceivedMessage()).thenReturn(Counter.builder("").register(new SimpleMeterRegistry()));
         mockMvc.perform(post(uriComponents.toUri()).contentType(MediaType.APPLICATION_JSON_VALUE).content(requestBody))
