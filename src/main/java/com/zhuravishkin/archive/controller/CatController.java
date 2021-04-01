@@ -12,6 +12,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,7 +83,11 @@ public class CatController {
         log.info("Upload objects completed successfully");
         log.info("Sending message...");
         try {
-            rabbitTemplate.convertAndSend(exchange, key, mapper.writeValueAsString(cats));
+            rabbitTemplate.convertAndSend(exchange, key, mapper.writeValueAsString(cats), message -> {
+                message.getMessageProperties().getHeaders().put("content-type", MediaType.APPLICATION_JSON_VALUE);
+                message.getMessageProperties().setContentType(MediaType.APPLICATION_JSON_VALUE);
+                return message;
+            });
             actuatorConfig.getSendMessage().increment();
         } catch (JsonProcessingException e) {
             log.error(e.getMessage(), e);
